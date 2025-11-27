@@ -155,12 +155,11 @@ class WorkerAM(AtomicDEVS):
         self.ht = None            # "H2", "H4", "T"
         self.n = 0                # 주문 개수
 
-        self.count = 0
-
         # 포트
         self.in_order = self.addInPort("in_order")       # (HT, n)
         self.out_done = self.addOutPort("out_done")      # ("done", worker_id)
-        self.out_serving = self.addOutPort("out_serving")  # ("serving", n)
+        self.out_serving2 = self.addOutPort("out_serving2")  # ("serving", n)
+        self.out_serving4 = self.addOutPort("out_serving4")
         self.out_takeout = self.addOutPort("out_takeout")  # ("takeout", n)
 
     def timeAdvance(self):
@@ -199,11 +198,14 @@ class WorkerAM(AtomicDEVS):
             outputs = {}
             # OrderAM에게 완료 알림
             outputs[self.out_done] = ("done", self.id)
-            self.count += self.n
 
             # 손님에게 결과 전달
             if self.ht in ("H2", "H4"):
-                outputs[self.out_serving] = ("serving", self.n)
+                if self.n in [1,2]:
+                    outputs[self.out_serving2] = ("serving2", self.n)
+
+                if self.n in [3,4]:
+                    outputs[self.out_serving4] = ("serving4", self.n)
             else:  # "T" (takeout)
                 outputs[self.out_takeout] = ("takeout", self.n)
 
