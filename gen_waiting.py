@@ -182,7 +182,7 @@ class Waiting2AM(AtomicDEVS):
             # 손님 도착
             if self.in_guest in inputs:
                 guest = inputs[self.in_guest]
-                print(guest)
+                # print(guest)
                 self.queue.append(guest)
 
                 if self.m2 < self.max2:
@@ -368,6 +368,9 @@ class HallSeatQueueCM(CoupledDEVS):
             self.waiting4.in_guest,
             lambda val: val if val[1] in [3, 4] else None
         )
+        
+        self.connectPorts(self.waiting2.out_order, self.out_order2)
+        self.connectPorts(self.waiting4.out_order, self.out_order4)
 
 
 # top = Welcom("RestaurantSystem", max2=2, max4=2)
