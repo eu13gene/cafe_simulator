@@ -369,32 +369,6 @@ class HallSeatQueueCM(CoupledDEVS):
             lambda val: val if val[1] in [3, 4] else None
         )
 
-from pypdevs.DEVS import CoupledDEVS
-
-class Welcom(CoupledDEVS):
-    def __init__(self, name, max2, max4):
-        super().__init__(name)
-
-        # ----- Submodels -----
-        self.gen = GEN("GEN")
-        self.hall = HallSeatQueueCM("Hall", max2, max4)
-
-        self.addSubModel(self.gen)
-        self.addSubModel(self.hall)
-
-        # ----- Port Connections -----
-        # GEN → HallSeatQueueCM (손님 전달)
-        #print(self.gen.outport)
-        self.connectPorts(self.gen.out_hall12, self.hall.in_hall12)
-        self.connectPorts(self.gen.out_hall34, self.hall.in_hall34)
-        self.connectPorts(self.gen.out_takeout, self.hall.in_takeout)
-
-        # 외부 출력이 필요하면 Welcom의 outport 추가 가능
-        self.out2 = self.addOutPort("out2")
-        self.out4 = self.addOutPort("out4")
-
-        self.connectPorts(self.hall.out_order2, self.out2)
-        self.connectPorts(self.hall.out_order4, self.out4)
 
 # top = Welcom("RestaurantSystem", max2=2, max4=2)
 
