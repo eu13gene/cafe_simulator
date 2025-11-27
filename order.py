@@ -155,6 +155,8 @@ class WorkerAM(AtomicDEVS):
         self.ht = None            # "H2", "H4", "T"
         self.n = 0                # 주문 개수
 
+        self.count = 0
+
         # 포트
         self.in_order = self.addInPort("in_order")       # (HT, n)
         self.out_done = self.addOutPort("out_done")      # ("done", worker_id)
@@ -197,6 +199,7 @@ class WorkerAM(AtomicDEVS):
             outputs = {}
             # OrderAM에게 완료 알림
             outputs[self.out_done] = ("done", self.id)
+            self.count += self.n
 
             # 손님에게 결과 전달
             if self.ht in ("H2", "H4"):
@@ -220,7 +223,8 @@ class OrderWorkerCM(CoupledDEVS):
         self.in_hall4 = self.addInPort("in_hall4")
         self.in_takeout = self.addInPort("in_takeout")
 
-        self.out_serving = self.addOutPort("out_serving")
+        self.out_serving2 = self.addOutPort("out_serving2")
+        self.out_serving4 = self.addOutPort("out_serving4")
         self.out_takeout = self.addOutPort("out_takeout")
 
         # Submodels
@@ -238,7 +242,8 @@ class OrderWorkerCM(CoupledDEVS):
             self.connectPorts(worker.out_done, self.order.in_done[i - 1])
 
             # Worker → External (EOC)
-            self.connectPorts(worker.out_serving, self.out_serving)
+            self.connectPorts(worker.out_serving2, self.out_serving2)
+            self.connectPorts(worker.out_serving4, self.out_serving4)
             self.connectPorts(worker.out_takeout, self.out_takeout)
 
 

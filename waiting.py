@@ -243,8 +243,8 @@ class HallSeatQueueCM(CoupledDEVS):
         self.in_takeout = self.addInPort("in_takeout")
 
         # 좌석에서 들어오는 입력포트
-        # self.in_exit2 = self.addInPort("in_exit2")
-        # self.in_exit4 = self.addInPort("in_exit4")
+        self.in_exit2 = self.addInPort("in_exit2")
+        self.in_exit4 = self.addInPort("in_exit4")
 
         self.out_order2 = self.addOutPort("out_order2")  # (Hall, n)
         self.out_order4 = self.addOutPort("out_order4")
@@ -257,8 +257,8 @@ class HallSeatQueueCM(CoupledDEVS):
         self.addSubModel(self.waiting4)
 
         # 좌석 모델과 연결
-        # self.connectPorts(self.in_exit2, self.waiting2.in_exit)
-        # self.connectPorts(self.in_exit4, self.waiting4.in_exit)
+        self.connectPorts(self.in_exit2, self.waiting2.in_exit)
+        self.connectPorts(self.in_exit4, self.waiting4.in_exit)
 
         #print(self.in_guest)
         self.connectPorts(
