@@ -30,7 +30,7 @@ class SeatPlacement2AM(AtomicDEVS):
 
         # 입력/출력 포트
         self.in_serving = self.addInPort("in_serving")
-        self.in_stop = self.addInPort("in_stop")
+        #self.in_stop = self.addInPort("in_stop")
         self.out_exit2 = self.addOutPort("out_exit2")
 
         # 상태 변수
@@ -123,7 +123,7 @@ class SeatPlacement4AM(AtomicDEVS):
 
         # 입력/출력 포트
         self.in_serving = self.addInPort("in_serving")
-        self.in_stop = self.addInPort("in_stop")
+        #self.in_stop = self.addInPort("in_stop")
         self.out_exit4 = self.addOutPort("out_exit4")
 
         # 상태 변수
